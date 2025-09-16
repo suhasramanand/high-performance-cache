@@ -1,0 +1,28 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Compiled binaries
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# Debug files
+debug_*
+test_server.py
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
