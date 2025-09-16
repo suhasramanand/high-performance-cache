@@ -16,6 +16,12 @@ bool Cache::set(const std::string& key, const std::string& value) {
     
     // Check if we need to evict entries
     size_t entry_size = key.size() + value.size() + sizeof(CacheEntry);
+    
+    // If the single entry is larger than capacity, reject it
+    if (entry_size > max_capacity_) {
+        return false;
+    }
+    
     if (current_memory_usage_ + entry_size > max_capacity_) {
         if (!evict_if_needed()) {
             return false; // Couldn't free enough space
@@ -119,18 +125,20 @@ bool Cache::evict_if_needed() {
     size_t target_usage = max_capacity_ * 0.8; // Keep at 80% capacity
     
     while (current_memory_usage_ > target_usage && lru_cache_.size() > 0) {
-        // The LRU cache will handle the eviction
-        // We need to estimate the size reduction
-        size_t estimated_entry_size = 100; // Rough estimate
-        if (current_memory_usage_ > estimated_entry_size) {
-            current_memory_usage_ -= estimated_entry_size;
+        // Reduce LRU cache capacity to force eviction
+        size_t current_size = lru_cache_.size();
+        if (current_size > 1) {
+            lru_cache_.set_capacity(current_size - 1);
+            // Estimate memory reduction (this is simplified)
+            size_t estimated_reduction = 50; // Rough estimate for small entries
+            if (current_memory_usage_ > estimated_reduction) {
+                current_memory_usage_ -= estimated_reduction;
+            } else {
+                current_memory_usage_ = 0;
+            }
         } else {
-            current_memory_usage_ = 0;
+            break;
         }
-        
-        // Note: In a real implementation, we'd need to track actual sizes
-        // For now, we'll rely on the LRU cache's internal eviction
-        break;
     }
     
     return current_memory_usage_ <= target_usage;

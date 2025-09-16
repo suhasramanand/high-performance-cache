@@ -101,6 +101,7 @@ bool TCPServer::is_running() const {
 
 void TCPServer::handle_client(int client_socket) {
     char buffer[4096];
+    std::string request_buffer;
     
     while (running_) {
         ssize_t bytes_received = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
@@ -109,20 +110,32 @@ void TCPServer::handle_client(int client_socket) {
         }
         
         buffer[bytes_received] = '\0';
-        std::string request(buffer);
+        request_buffer += std::string(buffer);
         
-        auto start_time = std::chrono::high_resolution_clock::now();
-        std::string response = process_request(request);
-        auto end_time = std::chrono::high_resolution_clock::now();
-        
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
-        double current_total = total_response_time_.load();
-        while (!total_response_time_.compare_exchange_weak(current_total, current_total + duration.count())) {
-            // Retry on failure
+        // Process all complete requests (ending with newline)
+        size_t pos = 0;
+        while ((pos = request_buffer.find('\n')) != std::string::npos) {
+            std::string request = request_buffer.substr(0, pos);
+            request_buffer.erase(0, pos + 1);
+            
+            // Skip empty requests
+            if (request.empty()) {
+                continue;
+            }
+            
+            auto start_time = std::chrono::high_resolution_clock::now();
+            std::string response = process_request(request);
+            auto end_time = std::chrono::high_resolution_clock::now();
+            
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+            double current_total = total_response_time_.load();
+            while (!total_response_time_.compare_exchange_weak(current_total, current_total + duration.count())) {
+                // Retry on failure
+            }
+            requests_processed_++;
+            
+            send_response(client_socket, response);
         }
-        requests_processed_++;
-        
-        send_response(client_socket, response);
     }
     
     close(client_socket);

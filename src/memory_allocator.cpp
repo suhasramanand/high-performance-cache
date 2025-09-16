@@ -17,6 +17,9 @@ MemoryAllocator::~MemoryAllocator() {
 void* MemoryAllocator::allocate(size_t size) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Store original size for accurate tracking
+    size_t original_size = size;
+    
     // Align size to 8-byte boundary for better performance
     size = (size + 7) & ~7;
     
@@ -24,7 +27,7 @@ void* MemoryAllocator::allocate(size_t size) {
     auto block = find_free_block(size);
     if (block) {
         block->in_use = true;
-        allocated_bytes_ += size;
+        allocated_bytes_ += original_size; // Track original size, not aligned size
         allocation_count_++;
         return block->ptr;
     }
@@ -42,7 +45,7 @@ void* MemoryAllocator::allocate(size_t size) {
     blocks_.emplace_back(ptr, size);
     blocks_.back().in_use = true;
     
-    allocated_bytes_ += size;
+    allocated_bytes_ += original_size; // Track original size, not aligned size
     allocation_count_++;
     
     return ptr;
