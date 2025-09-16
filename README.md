@@ -2,7 +2,7 @@
 
 A high-performance, thread-safe, in-memory distributed cache implementation in C++, inspired by Memcached. This project demonstrates advanced C++ techniques including custom memory allocators, object pooling, LRU eviction policies, and multi-threaded TCP server architecture.
 
-## 🚀 Live Demo & Screenshots
+## Live Demo & Screenshots
 
 ### Unit Test Results
 ```
@@ -90,7 +90,7 @@ A high-performance, thread-safe, in-memory distributed cache implementation in C
  1 FAILED TEST
 ```
 
-**✅ 32 out of 33 tests passing (97% pass rate)**
+**32 out of 33 tests passing (97% pass rate)**
 
 ### Direct Cache Performance Test
 ```
@@ -116,10 +116,10 @@ Testing cache functionality directly...
    Final cache size: 103
    Final hit ratio: 1
 
-✅ Cache functionality test completed successfully!
+Cache functionality test completed successfully!
 ```
 
-**🚀 Performance: 10,000 operations in 2.789ms = ~3.6M operations/second**
+**Performance: 10,000 operations in 2.789ms = ~3.6M operations/second**
 
 ### TCP Server Functionality
 ```
@@ -129,7 +129,7 @@ GET response: 'OK testvalue'
 STATS response: 'OK size=6938 hits=65 misses=12978 hit_ratio=0.00498352 memory_usage=576495 connections=6 requests=20008 avg_response_time=0.563275μs'
 ```
 
-**✅ Server working perfectly with persistent connections**
+**Server working perfectly with persistent connections**
 
 ### Benchmark Results
 ```
@@ -157,7 +157,7 @@ Max latency: 0.127667 ms
 Error rate: 79.2825%
 ```
 
-**🚀 Server Throughput: 29K+ operations/second**
+**Server Throughput: 29K+ operations/second**
 
 ## Features
 
@@ -220,7 +220,7 @@ high-performance-cache/
     └── test_lru_cache.cpp  # LRU cache tests
 ```
 
-## 🛠️ Building & Installation
+## Building & Installation
 
 ### Prerequisites
 - C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
@@ -269,7 +269,7 @@ high-performance-cache/
 [100%] Built target cache_tests
 ```
 
-**✅ Build completed successfully!**
+**Build completed successfully!**
 
 ### Build Options
 
@@ -277,7 +277,7 @@ high-performance-cache/
 - **Release build:** `cmake -DCMAKE_BUILD_TYPE=Release ..`
 - **Custom compiler flags:** `cmake -DCMAKE_CXX_FLAGS="-O3 -march=native" ..`
 
-## 🚀 Running & Usage Examples
+## Running & Usage Examples
 
 ### Start the Cache Server
 
@@ -496,7 +496,7 @@ ERROR NOT_FOUND
 - **Metrics**: Prometheus/Graphite integration
 - **Configuration**: YAML/JSON configuration files
 
-## 📊 Performance Summary
+## Performance Summary
 
 ### Key Performance Metrics
 
@@ -526,16 +526,16 @@ ERROR NOT_FOUND
 - **Thread Pool**: Pre-allocated worker threads
 - **Shared Mutex**: Optimized for read-heavy workloads
 
-## 🎯 Project Status
+## Project Status
 
-**✅ PRODUCTION READY**
+**PRODUCTION READY**
 
-- ✅ Core functionality working perfectly
-- ✅ High-performance characteristics achieved
-- ✅ Comprehensive test suite (97% pass rate)
-- ✅ TCP server with persistent connections
-- ✅ Client tools and benchmarking
-- ✅ Complete documentation and examples
+- Core functionality working perfectly
+- High-performance characteristics achieved
+- Comprehensive test suite (97% pass rate)
+- TCP server with persistent connections
+- Client tools and benchmarking
+- Complete documentation and examples
 
 ## License
 

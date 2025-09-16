@@ -51,7 +51,7 @@ int main() {
     std::cout << "   Final cache size: " << cache.size() << std::endl;
     std::cout << "   Final hit ratio: " << cache.hit_ratio() << std::endl;
     
-    std::cout << "\n✅ Cache functionality test completed successfully!" << std::endl;
+    std::cout << "\nCache functionality test completed successfully!" << std::endl;
     
     return 0;
 }
